@@ -32,7 +32,7 @@ public class DKDataFiling {
 	 * @param hostName
 	 * @param hostPassword
 	 */
-	public void formatRec(String jarPath, String spStr, int fdSum,
+	public static void formatRec(String jarPath, String spStr, int fdSum,
 			String srcDirName, String dstDirName, String threadNum,
 			String hostIp, String hostName, String hostPassword) {
 		
@@ -61,7 +61,7 @@ public class DKDataFiling {
 	 * @param hostName
 	 * @param hostPassword
 	 */
-	public void formatField(String jarPath, String spStr, String regExStr,int fdNum,
+	public static void formatField(String jarPath, String spStr, String regExStr,int fdNum,
 			String srcDirName, String dstDirName, String threadNum,
 			String hostIp, String hostName, String hostPassword) {
 		//  hadoop jar xxx.jar [mainclass] spStr regExStr fdNum srcDirName dstDirName threadNum
@@ -88,7 +88,7 @@ public class DKDataFiling {
 	 * @param hostName
 	 * @param hostPassword
 	 */
-	public void selectField(String jarPath, String spStr, String fdAr,
+	public static void selectField(String jarPath, String spStr, String fdAr,
 			String srcDirName, String dstDirName, String threadNum,
 			String hostIp, String hostName, String hostPassword) {
 		//  hadoop jar xxx.jar [mainclass] spStr fdAr srcDirName dstDirName threadNum
@@ -124,7 +124,7 @@ public class DKDataFiling {
 	 * @param hostName
 	 * @param hostPassword
 	 */
-	public void selectRec(String jarPath, String spStr, String compStr, String whereStr, int fdNum,
+	public static void selectRec(String jarPath, String spStr, String compStr, String whereStr, int fdNum,
 			String srcDirName, String dstDirName, String threadNum,
 			String hostIp, String hostName, String hostPassword) {
 		//  hadoop jar xxx.jar [mainclass] spStr compStr whereStr fdNum srcDirName dstDirName threadNum
