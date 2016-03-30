@@ -11,7 +11,7 @@ public class DKDataFiling {
 	 * @param localFile：本地jar包绝对路径
 	 * @param remotePath：服务器文件夹路径
 	 */
-	public void upLoadJar(String hostIp, String hostName, String hostPassword,
+	public static void upLoadJar(String hostIp, String hostName, String hostPassword,
 			String localFile, String remotePath) {
 		try {
 			sshUtil.scp(hostIp, hostName, hostPassword, localFile, remotePath);
