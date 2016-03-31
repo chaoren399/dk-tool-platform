@@ -21,10 +21,10 @@ public class DKDataFiling {
 	}
 
 	/**
-	 * 
+	 * 不符合该数量的记录将被清除
 	 * @param jarPath: jar包文件的绝对路径
-	 * @param spStr
-	 * @param fdSum
+	 * @param spStr：分隔符
+	 * @param fdSum：字段数量
 	 * @param srcDirName
 	 * @param dstDirName
 	 * @param threadNum
@@ -49,11 +49,11 @@ public class DKDataFiling {
 		}
 	}
 	/**
-	 * 
+	 * 符合该表达式字段的记录将被剔除，检查哪个字段是否符合正则，0为全部检查
 	 * @param jarPath
-	 * @param spStr
-	 * @param regExStr
-	 * @param fdNum
+	 * @param spStr：分隔符
+	 * @param regExStr：正则表达式
+	 * @param fdNum: ：字段编号，0为全部检查
 	 * @param srcDirName
 	 * @param dstDirName
 	 * @param threadNum
@@ -77,9 +77,9 @@ public class DKDataFiling {
 		}
 	}
 	/**
-	 * 
+	 * 整数数组，内容是要保留的字段序号，没有编号的字段将去除
 	 * @param jarPath
-	 * @param spStr
+	 * @param spStr：分隔符
 	 * @param fdAr：字段编号，eg：1,2,3
 	 * @param srcDirName
 	 * @param dstDirName
@@ -104,7 +104,7 @@ public class DKDataFiling {
 		}
 	}
 	/**
-	 * 
+	 * 符合筛选条件的将被留下
 	 * @param jarPath
 	 * @param spStr
 	 * @param compStr: -eq       等于
@@ -113,10 +113,10 @@ public class DKDataFiling {
 	                   -ge       大于等于
 	                   -lt       小于
 	                   -le       小于等于
-                       -In
+                       -in
                        -notin
-	 * @param whereStr
-	 * @param fdNum
+	 * @param whereStr：条件
+	 * @param fdNum：字段编号
 	 * @param srcDirName
 	 * @param dstDirName
 	 * @param threadNum

@@ -104,7 +104,7 @@ public class DKML {
 	 * @param hostPassword
 	 * @param jarPath
 	 * @param masterUrl
-	 * @param inputPath：数据以空格分割
+	 * @param inputPath：数据以逗号分割
 	 * @param outputPath：数据格式 [t,x]: 3
 	 * @param minSupport：最小支持度，默认0.3
 	 */
