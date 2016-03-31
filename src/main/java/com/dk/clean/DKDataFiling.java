@@ -113,7 +113,7 @@ public class DKDataFiling {
 	                   -ge       大于等于
 	                   -lt       小于
 	                   -le       小于等于
-                       -In
+                       -in
                        -notin
 	 * @param whereStr：条件
 	 * @param fdNum：字段编号
