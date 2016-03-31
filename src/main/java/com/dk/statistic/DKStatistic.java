@@ -21,7 +21,7 @@ public class DKStatistic {
 	 * @param hostPassword
 	 * @return
 	 */
-	public static String count(String fun, int fdSum, String spStr, int fdNum,
+	public static long  count(String fun, int fdSum, String spStr, int fdNum,
 			String dirName, String hostIp, String hostPort, String hostName, String hostPassword) {
 		
 		// 临时表名
@@ -40,7 +40,8 @@ public class DKStatistic {
 			e.printStackTrace();
 		}
 
-		return "the " + fun + " for field_" + fdNum + " is " + data;
+		//return "the " + fun + " for field_" + fdNum + " is " + data;
+		return data;
 
 	}
 /**
@@ -59,7 +60,7 @@ public class DKStatistic {
  * @return
  */
 	//count( fun,  fdSum,  spStr,  fdNum, compStr, whereStr,	 dirName,  hostIp,  hostName,  hostPassword)
-	public static String count(String fun, int fdSum, String spStr, int fdNum,
+	public static long count(String fun, int fdSum, String spStr, int fdNum,
 			String compStr, String whereStr, String dirName, String hostIp, String hostPort,
 			String hostName, String hostPassword) {
 		// 临时表名
@@ -78,7 +79,8 @@ public class DKStatistic {
 					e.printStackTrace();
 				}
 
-				return "the " + fun + " for field_" + fdNum + " is " + data;
+				//return "the " + fun + " for field_" + fdNum + " is " + data;
+				return data;
 	}
 
 }
