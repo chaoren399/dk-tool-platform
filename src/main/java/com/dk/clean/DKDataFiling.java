@@ -1,143 +1,95 @@
 package com.dk.clean;
 
-import com.dk.util.sshUtil;
+import java.sql.Statement;
+
+import com.dk.util.HiveUtil;
 
 public class DKDataFiling {
-	/**
-	 * 上传jar包
-	 * @param hostIp
-	 * @param hostName
-	 * @param hostPassword
-	 * @param localFile：本地jar包绝对路径
-	 * @param remotePath：服务器文件夹路径
-	 */
-	public static void upLoadJar(String hostIp, String hostName, String hostPassword,
-			String localFile, String remotePath) {
-		try {
-			sshUtil.scp(hostIp, hostName, hostPassword, localFile, remotePath);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	private static String driverName = "org.apache.hive.jdbc.HiveDriver";
+
+	public static void formatRec(String spStr, int fdSum, String srcDirName,
+			String dstDirName, String hostIp, String hostPort, String hostName,
+			String hostPassword) throws Exception {
+		String srcTable = "HiveTmpTabl_" + System.currentTimeMillis();
+		Statement stmt = null;
+		String url = "jdbc:hive2://" + hostIp + ":" + hostPort + "/default";
+		stmt = HiveUtil.createStmt(driverName, url, hostName, hostPassword);
+		HiveUtil.createTab(stmt, srcTable, srcDirName);
+
+		String dstTable = srcTable + "_dst";
+		HiveUtil.formatRec(stmt, dstDirName, srcTable, dstTable, spStr, fdSum);
+
+		HiveUtil.toExTable(stmt, dstTable);
+		HiveUtil.deleteTab(stmt, srcTable);
+		HiveUtil.deleteTab(stmt, dstTable);
+	}
+	
+	//formatField (String regExStr,int fdNum,String srcDirName,String dstDirName,,String threadNum,String hostIp,String hostName,String hostPassword)
+	public static void formatField(String spStr, int fdSum,String fdNum, String regExStr, String srcDirName,
+			String dstDirName, String hostIp, String hostPort, String hostName,
+			String hostPassword) throws Exception {
+		String srcTable = "HiveTmpTabl_" + System.currentTimeMillis();
+		Statement stmt = null;
+		String url = "jdbc:hive2://" + hostIp + ":" + hostPort + "/default";
+		stmt = HiveUtil.createStmt(driverName, url, hostName, hostPassword);
+		HiveUtil.createTab(stmt, srcTable, srcDirName);
+
+		String dstTable = srcTable + "_dst";
+		HiveUtil.formatField(stmt, dstDirName, srcTable, dstTable, spStr, fdSum,fdNum,regExStr);
+		
+		HiveUtil.toExTable(stmt, dstTable);
+		HiveUtil.deleteTab(stmt, srcTable);
+		HiveUtil.deleteTab(stmt, dstTable);
 	}
 
-	/**
-	 * 不符合该数量的记录将被清除
-	 * @param jarPath: jar包文件的绝对路径
-	 * @param spStr：分隔符
-	 * @param fdSum：字段数量
-	 * @param srcDirName
-	 * @param dstDirName
-	 * @param threadNum
-	 * @param hostIp
-	 * @param hostName
-	 * @param hostPassword
-	 */
-	public static void formatRec(String jarPath, String spStr, int fdSum,
-			String srcDirName, String dstDirName, String threadNum,
-			String hostIp, String hostName, String hostPassword) {
-		
-		// hadoop jar xxx.jar [mainclass] spStr fdSum srcDirName dstDirName threadNum
-		
-		String cmd = "hadoop jar " + jarPath
-				+ " com.dk.formatRec.FormatRecDriver " + spStr + " " + fdSum
-				+ " " + srcDirName + " " + dstDirName + " " + threadNum;
-		System.out.println(cmd);
-		try {
-			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	/**
-	 * 符合该表达式字段的记录将被剔除，检查哪个字段是否符合正则，0为全部检查
-	 * @param jarPath
-	 * @param spStr：分隔符
-	 * @param regExStr：正则表达式
-	 * @param fdNum: ：字段编号，0为全部检查
-	 * @param srcDirName
-	 * @param dstDirName
-	 * @param threadNum
-	 * @param hostIp
-	 * @param hostName
-	 * @param hostPassword
-	 */
-	public static void formatField(String jarPath, String spStr, String regExStr,int fdNum,
-			String srcDirName, String dstDirName, String threadNum,
-			String hostIp, String hostName, String hostPassword) {
-		//  hadoop jar xxx.jar [mainclass] spStr regExStr fdNum srcDirName dstDirName threadNum
-		
-		String cmd = "hadoop jar " + jarPath
-				+ " com.dk.formatField.FormatFieldDriver " + spStr+ " " + regExStr + " " + fdNum
-				+ " " + srcDirName + " " + dstDirName + " " + threadNum;
-		System.out.println(cmd);
-		try {
-			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	/**
-	 * 整数数组，内容是要保留的字段序号，没有编号的字段将去除
-	 * @param jarPath
-	 * @param spStr：分隔符
-	 * @param fdAr：字段编号，eg：1,2,3
-	 * @param srcDirName
-	 * @param dstDirName
-	 * @param threadNum
-	 * @param hostIp
-	 * @param hostName
-	 * @param hostPassword
-	 */
-	public static void selectField(String jarPath, String spStr, String fdAr,
-			String srcDirName, String dstDirName, String threadNum,
-			String hostIp, String hostName, String hostPassword) {
-		//  hadoop jar xxx.jar [mainclass] spStr fdAr srcDirName dstDirName threadNum
-		
-		String cmd = "hadoop jar " + jarPath
-				+ " com.dk.selectFiled.SelectFieldDriver " + spStr+ " " + fdAr
-				+ " " + srcDirName + " " + dstDirName + " " + threadNum;
-		System.out.println(cmd);
-		try {
-			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	/**
-	 * 符合筛选条件的将被留下
-	 * @param jarPath
-	 * @param spStr
-	 * @param compStr: -eq       等于
-					   -ne       不等于
-                       -gt       大于
-	                   -ge       大于等于
-	                   -lt       小于
-	                   -le       小于等于
-                       -in
-                       -notin
-	 * @param whereStr：条件
-	 * @param fdNum：字段编号
-	 * @param srcDirName
-	 * @param dstDirName
-	 * @param threadNum
-	 * @param hostIp
-	 * @param hostName
-	 * @param hostPassword
-	 */
-	public static void selectRec(String jarPath, String spStr, String compStr, String whereStr, int fdNum,
-			String srcDirName, String dstDirName, String threadNum,
-			String hostIp, String hostName, String hostPassword) {
-		//  hadoop jar xxx.jar [mainclass] spStr compStr whereStr fdNum srcDirName dstDirName threadNum
-		
-		String cmd = "hadoop jar " + jarPath
-				+ " com.dk.selectRec.SelectRecDriver " + spStr+ " " + compStr + " "+ whereStr+ " " + fdNum
-				+ " " + srcDirName + " " + dstDirName + " " + threadNum;
-		System.out.println(cmd);
-		try {
-			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	//String selectField (int[] fdAr,String srcDirName,String dstDirName,String threadNum,String hostIp,String hostName,String hostPassword)
+	public static void selectField(String spStr, int fdSum,String fdNum, String srcDirName,
+			String dstDirName, String hostIp, String hostPort, String hostName,
+			String hostPassword) throws Exception {
+		String srcTable = "HiveTmpTabl_" + System.currentTimeMillis();
+		Statement stmt = null;
+		String url = "jdbc:hive2://" + hostIp + ":" + hostPort + "/default";
+		stmt = HiveUtil.createStmt(driverName, url, hostName, hostPassword);
+		HiveUtil.createTab(stmt, srcTable, fdSum, spStr, srcDirName);
 
+		String dstTable = srcTable + "_dst";
+		HiveUtil.selectField(stmt, dstDirName, srcTable, dstTable, spStr, fdSum,fdNum);
+		
+		HiveUtil.toExTable(stmt, dstTable);
+		HiveUtil.deleteTab(stmt, srcTable);
+		HiveUtil.deleteTab(stmt, dstTable);
+	}
+	
+	
+	//String selectRec (Stirng whereStr,int fdNum,String srcDirName,String dstDirName,String threadNum,String hostIp,String hostName,String hostPassword)
+	public static void selectRec(String spStr, int fdSum, String whereStr, String srcDirName,
+			String dstDirName, String hostIp, String hostPort, String hostName,
+			String hostPassword) throws Exception {
+		String srcTable = "HiveTmpTabl_" + System.currentTimeMillis();
+		Statement stmt = null;
+		String url = "jdbc:hive2://" + hostIp + ":" + hostPort + "/default";
+		stmt = HiveUtil.createStmt(driverName, url, hostName, hostPassword);
+		HiveUtil.createTab(stmt, srcTable, fdSum, spStr, srcDirName);
+
+		String dstTable = srcTable + "_dst";
+		HiveUtil.selectRec(stmt, dstDirName, srcTable, dstTable, spStr, fdSum,whereStr);
+		
+		HiveUtil.toExTable(stmt, dstTable);
+		HiveUtil.deleteTab(stmt, srcTable);
+		HiveUtil.deleteTab(stmt, dstTable);
+	}
+	
+	public static void main(String[] args) throws Exception {
+		String hostIp = "192.168.50.102";
+		String hostName = "root";
+		String hostPassword = "123456";
+		int fdSum = 24;
+		String spStr = ",";
+		String srcDirName = "/zxh/class_build_in";
+		String hostPort = "10000";
+		//formatRec(spStr, fdSum, srcDirName, "/zxh/formatRec", hostIp, hostPort,hostName, hostPassword);
+//		formatField(spStr, fdSum, "1, 2, 3", "0", srcDirName, "/zxh/formatFieldout2", hostIp, hostPort, hostName, hostPassword);
+		selectField(spStr, fdSum, "1,2,3", srcDirName, "/zxh/selectFieldout2", hostIp, hostPort, hostName, hostPassword);
+//		selectRec(spStr, fdSum, "f1 = 1", srcDirName, "/zxh/selectRecout", hostIp, hostPort, hostName, hostPassword);
+	}
 }
