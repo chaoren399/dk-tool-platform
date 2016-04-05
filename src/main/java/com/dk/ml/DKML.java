@@ -131,14 +131,13 @@ public class DKML {
 	 * @param masterUrl
 	 * @param inputPath
 	 * @param modelPath
-	 * @param dataType：数据类型，LibSVM、LabeledPoints
 	 * @param numClass：分类数目
 	 */
 	public static void LRModelBuild(String hostIp, String hostName,
 			String hostPassword, String jarPath, String masterUrl,
-			 String inputPath,String modelPath,String dataType,int numClass) {
+			 String inputPath,String modelPath,int numClass) {
 		String cmd = "spark-submit --class com.dk.lr.LRModelBuild --master "
-				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + dataType+ " " + numClass;
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " LabeledPoints " + numClass;
 		System.out.println(cmd);
 		try {
 			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
@@ -157,14 +156,13 @@ public class DKML {
 	 * @param masterUrl
 	 * @param inputPath
 	 * @param modelPath
-	 * @param outputPath: 数据格式 (692,[129,130,···],[···,94.0,59.0])--0.0
-	 * @param dataType：数据类型，LibSVM、LabeledPoints
+	 * @param outputPath
 	 */
 	public static void LRModelPredict(String hostIp, String hostName,
 			String hostPassword, String jarPath, String masterUrl,
-			 String inputPath,String modelPath,String outputPath,String dataType) {
+			 String inputPath,String modelPath,String outputPath) {
 		String cmd = "spark-submit --class com.dk.lr.LRModelPredict --master "
-				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + outputPath+ " " + dataType;
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + outputPath+ " LabeledPoints";
 		System.out.println(cmd);
 		try {
 			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
@@ -183,13 +181,12 @@ public class DKML {
 	 * @param masterUrl
 	 * @param inputPath
 	 * @param modelPath
-	 * @param dataType： 数据类型，LibSVM、LabeledPoints
 	 */
 	public static void NBModelBuild(String hostIp, String hostName,
 			String hostPassword, String jarPath, String masterUrl,
-			 String inputPath,String modelPath,String dataType) {
+			 String inputPath,String modelPath) {
 		String cmd = "spark-submit --class com.dk.nb.NBModelBuild --master "
-				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + dataType;
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " LabeledPoints";
 		System.out.println(cmd);
 		try {
 			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
@@ -208,14 +205,13 @@ public class DKML {
 	 * @param masterUrl
 	 * @param inputPath
 	 * @param modelPath
-	 * @param outputPath: 数据格式 (692,[129,130,···],[···,94.0,59.0])--0.0
-	 * @param dataType：数据类型，LibSVM、LabeledPoints
+	 * @param outputPath
 	 */
 	public static void NBModelPredict(String hostIp, String hostName,
 			String hostPassword, String jarPath, String masterUrl,
-			 String inputPath,String modelPath,String outputPath,String dataType) {
+			 String inputPath,String modelPath,String outputPath) {
 		String cmd = "spark-submit --class com.dk.nb.NBModelPredict --master "
-				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + outputPath+ " " + dataType;
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + outputPath+ " LabeledPoints";
 		System.out.println(cmd);
 		try {
 			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
@@ -234,14 +230,13 @@ public class DKML {
 	 * @param masterUrl
 	 * @param inputPath
 	 * @param outputPath
-	 * @param dataType：数据类型，LibSVM、LabeledPoints
 	 * @param k：主成分数目
 	 */
 	public static void PCAModel(String hostIp, String hostName,
 			String hostPassword, String jarPath, String masterUrl,
-			 String inputPath,String outputPath,String dataType,int k) {
+			 String inputPath,String outputPath,int k) {
 		String cmd = "spark-submit --class com.dk.pca.PCAModel --master "
-				+ masterUrl + " " + jarPath + " " + inputPath+ " " + outputPath+ " " + dataType+ " " + k;
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + outputPath+ " LabeledPoints " + k;
 		System.out.println(cmd);
 		try {
 			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
@@ -260,14 +255,13 @@ public class DKML {
 	 * @param masterUrl
 	 * @param inputPath
 	 * @param modelPath
-	 * @param dataType：数据类型，LibSVM、LabeledPoints
 	 * @param numClass：分类数目，2或者更多
 	 */
 	public static void RFClassModelBuild(String hostIp, String hostName,
 			String hostPassword, String jarPath, String masterUrl,
-			 String inputPath,String modelPath,String dataType,int numClass) {
+			 String inputPath,String modelPath,int numClass) {
 		String cmd = "spark-submit --class com.dk.randomforest.RFClassModelBuild --master "
-				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + dataType+ " " + numClass;
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " LabeledPoints " + numClass;
 		System.out.println(cmd);
 		try {
 			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
@@ -286,13 +280,12 @@ public class DKML {
 	 * @param masterUrl
 	 * @param inputPath
 	 * @param modelPath
-	 * @param dataType
 	 */
 	public static void RFRegresModelBuild(String hostIp, String hostName,
 			String hostPassword, String jarPath, String masterUrl,
-			 String inputPath,String modelPath,String dataType) {
+			 String inputPath,String modelPath) {
 		String cmd = "spark-submit --class com.dk.randomforest.RFRegresModelBuild --master "
-				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + dataType;
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " LabeledPoints";
 		System.out.println(cmd);
 		try {
 			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
@@ -312,13 +305,12 @@ public class DKML {
 	 * @param inputPath
 	 * @param modelPath
 	 * @param outputPath
-	 * @param dataType
 	 */
 	public static void RFModelPredict(String hostIp, String hostName,
 			String hostPassword, String jarPath, String masterUrl,
-			 String inputPath,String modelPath,String outputPath,String dataType) {
+			 String inputPath,String modelPath,String outputPath) {
 		String cmd = "spark-submit --class com.dk.randomforest.RFModelPredict --master "
-				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + outputPath+ " " + dataType;
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + outputPath+ " LabeledPoints";
 		System.out.println(cmd);
 		try {
 			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
@@ -337,13 +329,12 @@ public class DKML {
 	 * @param masterUrl
 	 * @param inputPath
 	 * @param modelPath
-	 * @param dataType
 	 */
 	public static void SVMModelBuild(String hostIp, String hostName,
 			String hostPassword, String jarPath, String masterUrl,
-			 String inputPath,String modelPath,String dataType) {
+			 String inputPath,String modelPath) {
 		String cmd = "spark-submit --class com.dk.svm.SVMModelBuild --master "
-				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + dataType;
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " LabeledPoints";
 		System.out.println(cmd);
 		try {
 			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
@@ -363,13 +354,12 @@ public class DKML {
 	 * @param inputPath
 	 * @param modelPath
 	 * @param outputPath
-	 * @param dataType
 	 */
 	public static void SVMModelPredict(String hostIp, String hostName,
 			String hostPassword, String jarPath, String masterUrl,
-			 String inputPath,String modelPath,String outputPath,String dataType) {
+			 String inputPath,String modelPath,String outputPath) {
 		String cmd = "spark-submit --class com.dk.svm.SVMModelPredict --master "
-				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + outputPath+ " " + dataType;
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + outputPath+ " LabeledPoints";
 		System.out.println(cmd);
 		try {
 			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
@@ -388,14 +378,13 @@ public class DKML {
 	 * @param masterUrl
 	 * @param inputPath
 	 * @param modelPath
-	 * @param dataType
 	 * @param numClusters
 	 */
 	public static void KMModelBuild(String hostIp, String hostName,
 			String hostPassword, String jarPath, String masterUrl,
-			 String inputPath,String modelPath,String dataType,int numClusters) {
+			 String inputPath,String modelPath,int numClusters) {
 		String cmd = "spark-submit --class com.dk.kmeans.KMModelBuild --master "
-				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + dataType+ " " + numClusters;
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " LabeledPoints " + numClusters;
 		System.out.println(cmd);
 		try {
 			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
@@ -415,13 +404,12 @@ public class DKML {
 	 * @param inputPath
 	 * @param modelPath
 	 * @param outputPath
-	 * @param dataType
 	 */
 	public static void KMModelPredict(String hostIp, String hostName,
 			String hostPassword, String jarPath, String masterUrl,
-			 String inputPath,String modelPath,String outputPath,String dataType) {
+			 String inputPath,String modelPath,String outputPath) {
 		String cmd = "spark-submit --class com.dk.kmeans.KMModelPredict --master "
-				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + outputPath+ " " + dataType;
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + outputPath+ " LabeledPoints";
 		System.out.println(cmd);
 		try {
 			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
@@ -433,9 +421,9 @@ public class DKML {
 	
 	public static void GMModelBuild(String hostIp, String hostName,
 			String hostPassword, String jarPath, String masterUrl,
-			 String inputPath,String modelPath,String dataType,int numClusters) {
+			 String inputPath,String modelPath,int numClusters) {
 		String cmd = "spark-submit --class com.dk.gaussian.GMModelBuild --master "
-				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + dataType+ " " + numClusters;
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " LabeledPoints " + numClusters;
 		System.out.println(cmd);
 		try {
 			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
@@ -447,9 +435,9 @@ public class DKML {
 	
 	public static void GMModelPredict(String hostIp, String hostName,
 			String hostPassword, String jarPath, String masterUrl,
-			 String inputPath,String modelPath,String outputPath,String dataType) {
+			 String inputPath,String modelPath,String outputPath) {
 		String cmd = "spark-submit --class com.dk.gaussian.GMModelPredict --master "
-				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + outputPath+ " " + dataType;
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + modelPath+ " " + outputPath+ " LabeledPoints";
 		System.out.println(cmd);
 		try {
 			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
