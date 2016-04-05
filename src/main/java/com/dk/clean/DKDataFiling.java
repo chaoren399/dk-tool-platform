@@ -94,7 +94,7 @@ public class DKDataFiling {
 		//  hadoop jar xxx.jar [mainclass] spStr fdAr srcDirName dstDirName threadNum
 		
 		String cmd = "hadoop jar " + jarPath
-				+ " com.dk.selectField.SelectFieldDriver " + spStr+ " " + fdAr
+				+ " com.dk.selectFiled.SelectFieldDriver " + spStr+ " " + fdAr
 				+ " " + srcDirName + " " + dstDirName + " " + threadNum;
 		System.out.println(cmd);
 		try {
