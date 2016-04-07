@@ -446,4 +446,32 @@ public class DKML {
 		}	
 		
 	}
+	
+	private static void normalizer(String hostIp, String hostName,
+			String hostPassword, String jarPath, String masterUrl,
+			 String inputPath,String outputPath,String label) {
+		String cmd = "spark-submit --class com.dk.util.Normaliz --master "
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + outputPath+ " " + label;
+		System.out.println(cmd);
+		try {
+			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+		
+	}
+	
+	private static void standard(String hostIp, String hostName,
+			String hostPassword, String jarPath, String masterUrl,
+			 String inputPath,String outputPath,String label) {
+		String cmd = "spark-submit --class com.dk.util.Standardiz --master "
+				+ masterUrl + " " + jarPath + " " + inputPath+ " " + outputPath+ " " + label;
+		System.out.println(cmd);
+		try {
+			sshUtil.exe(cmd, hostIp, hostName, hostPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+		
+	}
 }
