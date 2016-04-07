@@ -102,11 +102,21 @@ public class HiveUtil {
 			sql = "create table " + dstTable +" location " + "'" + dstDirName + "' as select f from "+srcTable+" where not split(f,"  + "'"+spStr+"')["+ (Integer.parseInt(fdNum.trim())-1) +"] like '%" + regExStr +"%'";
 		}else if (fdNum.trim().split(",").length>1) {
 			String str="";
-			for (String fd : fdNum.trim().split(",")) {
-				if (str=="") {
-					str="not split(f,"  + "'"+spStr+"')["+ (Integer.parseInt(fd.trim())-1) +"] like '%" + regExStr +"%'";
+//			for (String fd : fdNum.trim().split(",")) {
+//				if (str=="") {
+//					str="not split(f,"  + "'"+spStr+"')["+ (Integer.parseInt(fd.trim())-1) +"] like '%" + regExStr +"%'";
+//				}else {
+//					str=str+" and not split(f,"  + "'"+spStr+"')["+ (Integer.parseInt(fd.trim())-1) +"] like '%" + regExStr +"%'";
+//				}
+//			}
+			
+			for (int i =0;i<fdNum.trim().split(",").length;i++) {
+				String[] fds = fdNum.trim().split(",");
+				String[] regs = regExStr.trim().split(",");
+				if (i==0) {
+					str="not split(f,"  + "'"+spStr+"')["+ (Integer.parseInt(fds[i])-1) +"] like '%" + regs[i] +"%'";
 				}else {
-					str=str+" and not split(f,"  + "'"+spStr+"')["+ (Integer.parseInt(fd.trim())-1) +"] like '%" + regExStr +"%'";
+					str=str+" and not split(f,"  + "'"+spStr+"')["+ (Integer.parseInt(fds[i])-1) +"] like '%" + regs[i] +"%'";
 				}
 			}
 			sql = "create table " + dstTable +" location " + "'" + dstDirName + "' as select f from "+srcTable+" where " + str;
