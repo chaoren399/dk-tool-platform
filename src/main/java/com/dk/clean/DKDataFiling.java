@@ -1,5 +1,7 @@
 package com.dk.clean;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.Statement;
 
 import com.dk.util.HiveUtil;
@@ -14,9 +16,11 @@ public class DKDataFiling {
 		String srcTable = "HiveTmpTabl_" + System.currentTimeMillis();
 		String dstTable = srcTable + "_dst";
 
-		Statement stmt = null;
 		String url = "jdbc:hive2://" + hostIp + ":" + hostPort + "/default";
-		stmt = HiveUtil.createStmt(driverName, url, hostName, hostPassword);
+		Class.forName(driverName);
+		Connection conn = DriverManager.getConnection(url, hostName,hostPassword);
+		Statement stmt = conn.createStatement();
+		
 		HiveUtil.createTab(stmt, srcTable, srcDirName);
 
 		try {
@@ -27,7 +31,10 @@ public class DKDataFiling {
 
 			HiveUtil.deleteTab(stmt, srcTable);
 			HiveUtil.deleteTab(stmt, dstTable);
+			stmt.close();
+			conn.close();
 		}
+		
 	}
 
 	// formatField (String regExStr,int fdNum,String srcDirName,String
@@ -41,8 +48,11 @@ public class DKDataFiling {
 		String srcTable = "HiveTmpTabl_" + System.currentTimeMillis();
 		String dstTable = srcTable + "_dst";
 
-		Statement stmt = null;
 		String url = "jdbc:hive2://" + hostIp + ":" + hostPort + "/default";
+		Class.forName(driverName);
+		Connection conn = DriverManager.getConnection(url, hostName,hostPassword);
+		Statement stmt = conn.createStatement();
+		
 		stmt = HiveUtil.createStmt(driverName, url, hostName, hostPassword);
 		HiveUtil.createTab(stmt, srcTable, srcDirName);
 
@@ -53,6 +63,8 @@ public class DKDataFiling {
 		} finally {
 			HiveUtil.deleteTab(stmt, srcTable);
 			HiveUtil.deleteTab(stmt, dstTable);
+			stmt.close();
+			conn.close();
 		}
 	}
 
@@ -65,8 +77,10 @@ public class DKDataFiling {
 		String srcTable = "HiveTmpTabl_" + System.currentTimeMillis();
 		String dstTable = srcTable + "_dst";
 
-		Statement stmt = null;
 		String url = "jdbc:hive2://" + hostIp + ":" + hostPort + "/default";
+		Class.forName(driverName);
+		Connection conn = DriverManager.getConnection(url, hostName,hostPassword);
+		Statement stmt = conn.createStatement();
 		stmt = HiveUtil.createStmt(driverName, url, hostName, hostPassword);
 		HiveUtil.createTab(stmt, srcTable, fdSum, spStr, srcDirName);
 
@@ -78,6 +92,8 @@ public class DKDataFiling {
 		} finally {
 			HiveUtil.deleteTab(stmt, srcTable);
 			HiveUtil.deleteTab(stmt, dstTable);
+			stmt.close();
+			conn.close();
 		}
 
 	}
@@ -91,8 +107,12 @@ public class DKDataFiling {
 			throws Exception {
 		String srcTable = "HiveTmpTabl_" + System.currentTimeMillis();
 		String dstTable = srcTable + "_dst";
-		Statement stmt = null;
+
 		String url = "jdbc:hive2://" + hostIp + ":" + hostPort + "/default";
+		Class.forName(driverName);
+		Connection conn = DriverManager.getConnection(url, hostName,hostPassword);
+		Statement stmt = conn.createStatement();
+		
 		stmt = HiveUtil.createStmt(driverName, url, hostName, hostPassword);
 		HiveUtil.createTab(stmt, srcTable, fdSum, spStr, srcDirName);
 		try {
@@ -103,6 +123,8 @@ public class DKDataFiling {
 		} finally {
 			HiveUtil.deleteTab(stmt, srcTable);
 			HiveUtil.deleteTab(stmt, dstTable);
+			stmt.close();
+			conn.close();
 		}
 
 	}
@@ -111,17 +133,15 @@ public class DKDataFiling {
 		String hostIp = "192.168.50.102";
 		String hostName = "root";
 		String hostPassword = "123456";
-		int fdSum = 24;
+		int fdSum = 20;
 		String spStr = ",";
-		String srcDirName = "/zxh/class_build_in";
+		String srcDirName = "/zzy";
 		String hostPort = "10000";
-		// formatRec(spStr, fdSum, srcDirName, "/zxh/formatRec", hostIp,
-		// hostPort,hostName, hostPassword);
-		// formatField(spStr, fdSum, "1, 2, 3", "0", srcDirName,
-		// "/zxh/formatFieldout2", hostIp, hostPort, hostName, hostPassword);
-		selectField(spStr, fdSum, "1,2,3", srcDirName, "/zxh/selectFieldout2",
-				hostIp, hostPort, hostName, hostPassword);
-		// selectRec(spStr, fdSum, "f1 = 1", srcDirName, "/zxh/selectRecout",
-		// hostIp, hostPort, hostName, hostPassword);
+//		formatRec(spStr, fdSum, srcDirName, "/zxh/formatRec2", hostIp,hostPort,hostName, hostPassword);
+//		formatField(spStr, fdSum, "1,1,1", "a,b,c", srcDirName,"/zxh/formatFieldout2", hostIp, hostPort, hostName, hostPassword);
+//		selectField(spStr, fdSum, "1,2,3", srcDirName, "/zxh/selectFieldout2",
+//				hostIp, hostPort, hostName, hostPassword);
+		 selectRec(spStr, fdSum, "f1 = 1", srcDirName, "/zxh/selectRecout",
+		 hostIp, hostPort, hostName, hostPassword);
 	}
 }
